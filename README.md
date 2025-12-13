@@ -6,8 +6,6 @@
 
 A desktop application for managing cinema seat reservations. Built with F# and WinForms, this project demonstrates functional programming principles applied to a UI application, featuring persistent storage and a testable business logic layer.
 
----
-
 ## Features
 
 *   **Interactive Seat Grid**: Visual 5x6 grid representing the cinema hall.
@@ -16,8 +14,6 @@ A desktop application for managing cinema seat reservations. Built with F# and W
 *   **Data Persistence**: Automatic saving of ticket data to local file storage.
 *   **Reset Functionality**: Administrative reset to clear all bookings.
 *   **Ticket Generation**: Unique UUID generation for every successful booking.
-
----
 
 ## Architecture and Design
 
@@ -181,48 +177,39 @@ classDiagram
 
 ```mermaid
 sequenceDiagram
-    autonumber
-    actor User
-    participant UI as Program (Button_Click)
+    participant User
+    participant UI as Program (UI)
     participant Logic as CinemaLogic
-    participant State as In-Memory Array
+    participant State as Seat Array
     participant FileSys as File System
 
-    User->>UI: Click Seat Button (row, col)
+    User->>UI: Click Seat Button
     
-    %% Check if already booked (UI Logic)
-    UI->>State: Check seats[row, col]
-    alt Seat is already booked (true)
-        State-->>UI: Returns true
-        UI->>User: MessageBox "Seat already booked!"
-    else Seat is free (false)
-        State-->>UI: Returns false
+    UI->>State: Check if booked
+    alt Seat is booked
+        State-->>UI: true
+        UI->>User: Show "Already booked"
+    else Seat is free
+        State-->>UI: false
         
-        %% Call Business Logic
-        UI->>Logic: bookSeat(seats, row, col)
+        UI->>Logic: bookSeat()
         activate Logic
-        Logic->>State: seats[row, col] <- true
-        Logic-->>UI: Returns true
+        Logic->>State: Mark as booked
+        Logic-->>UI: Success
         deactivate Logic
 
-        %% Update UI Visuals
-        UI->>UI: Button.BackColor = Color.Red
+        UI->>UI: Set Color Red
 
-        %% Save Ticket
-        UI->>Logic: saveTicket(row, col, ticketFile)
+        UI->>Logic: saveTicket()
         activate Logic
         Logic->>Logic: generateTicketId()
-        Logic-->>Logic: Returns UUID
-        Logic->>FileSys: File.AppendAllText(ticketInfo)
-        Logic-->>UI: Returns ticketInfo string
+        Logic->>FileSys: Append to file
+        Logic-->>UI: Return Ticket Info
         deactivate Logic
 
-        %% Confirmation
-        UI->>User: MessageBox "Seat booked! \n ID: ..."
+        UI->>User: Show "Seat booked"
     end
 ```
-
----
 
 ## Getting Started
 
@@ -239,8 +226,6 @@ Run the project using the dotnet CLI:
 dotnet run
 ```
 
----
-
 ## Project Structure
 
 *   **final project/**: Main Application
@@ -248,8 +233,6 @@ dotnet run
     *   `CinemaLogic.fs`: Pure Business Logic
 *   **final project.Tests/**: Unit Tests
     *   `Tests.fs`: Xunit Test Cases
-
----
 
 ## Testing Strategy
 
@@ -276,8 +259,6 @@ dotnet test
     *   **Reset Validation**: Confirm "Reset All" clears the grid visually and empties the file.
     *   **Error Handling**: Verify the "Seat already booked!" message appears when clicking a red seat.
 
----
-
 ## Team Roles and Architecture Mapping
 
 The project's modular architecture is designed to support the specific roles defined in the project requirements.
@@ -292,8 +273,6 @@ The project's modular architecture is designed to support the specific roles def
 | **6. UI Developer** | Main Form & Controls | `Program.fs` (Form, Controls) |
 | **7. Tester** | Verifies functionality | `final project.Tests` |
 | **8. Documentation Lead** | Maintains docs & graphs | `README.md`, `ArchitectureGraph.md` |
-
----
 
 ## Code Reference
 
@@ -325,8 +304,6 @@ Entry point for the application. Manages UI initialization, event handling, and 
 *   **`resetBtn: Button`**
     *   Resets the entire cinema state (memory and file) to initial empty state.
 
----
-
 ## Technologies
 
 *   F#
@@ -334,4 +311,3 @@ Entry point for the application. Manages UI initialization, event handling, and 
 *   Windows Forms
 *   Xunit
 *   Mermaid.js
-# Cinema-Reservation-System
