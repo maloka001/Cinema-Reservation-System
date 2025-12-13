@@ -4,8 +4,6 @@
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey)
 ![Language](https://img.shields.io/badge/language-F%23-378bba.svg)
 
-A desktop application for managing cinema seat reservations. Built with F# and WinForms, this project demonstrates functional programming principles applied to a UI application, featuring persistent storage and a testable business logic layer.
-
 ## Features
 
 *   **Interactive Seat Grid**: Visual 5x6 grid representing the cinema hall.
@@ -259,21 +257,6 @@ dotnet test
     *   **Reset Validation**: Confirm "Reset All" clears the grid visually and empties the file.
     *   **Error Handling**: Verify the "Seat already booked!" message appears when clicking a red seat.
 
-## Team Roles and Architecture Mapping
-
-The project's modular architecture is designed to support the specific roles defined in the project requirements.
-
-| Role | Responsibility | Project Component |
-| :--- | :--- | :--- |
-| **1. Seat Layout Architect** | Defines 2D array structure | `Program.fs` (rows/cols definition) |
-| **2. Display Developer** | Visualizes grid in UI | `Program.fs` (Button grid generation) |
-| **3. Booking Logic Developer** | Implements core rules | `CinemaLogic.bookSeat` |
-| **4. Ticket System Developer** | Unique IDs + format | `CinemaLogic.generateTicketId` |
-| **5. File Storage Developer** | Saves data to disk | `CinemaLogic.saveTicket` |
-| **6. UI Developer** | Main Form & Controls | `Program.fs` (Form, Controls) |
-| **7. Tester** | Verifies functionality | `final project.Tests` |
-| **8. Documentation Lead** | Maintains docs & graphs | `README.md`, `ArchitectureGraph.md` |
-
 ## Code Reference
 
 ### Module: CinemaLogic
@@ -303,11 +286,3 @@ Entry point for the application. Manages UI initialization, event handling, and 
 
 *   **`resetBtn: Button`**
     *   Resets the entire cinema state (memory and file) to initial empty state.
-
-## Technologies
-
-*   F#
-*   .NET
-*   Windows Forms
-*   Xunit
-*   Mermaid.js
