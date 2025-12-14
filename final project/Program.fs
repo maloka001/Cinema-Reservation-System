@@ -24,7 +24,7 @@ let cols = 6
 /// </summary>
 let seats = Array2D.create rows cols false
 
-/// <summary>
+/// <summary> 
 /// Initialize the main application form for the cinema reservation.
 /// </summary>
 let form = new Form(Text = "Cinema Seat Reservation", Size = Size(600, 450))
@@ -123,3 +123,4 @@ form.Controls.Add(resetBtn)
 [<STAThread>]
 Application.EnableVisualStyles()
 Application.Run(form)
+
